@@ -29,11 +29,14 @@ export default class ListBooks extends Component {
           <div>
             {
               Object.keys(this.state.shelves)
-                .map(shelfName =>
+                .map(shlefKey =>
                   <Bookshelf
-                    key={shelfName}
-                    title={shelfName}
-                    books={this.state.shelves[shelfName]} />
+                    key={shlefKey}
+                    title={shlefKey
+                      .replace(/[A-Z]/g, str => ` ${str}`)
+                      .replace(/^\w/, str => str.toUpperCase())
+                    }
+                    books={this.state.shelves[shlefKey]} />
                 )
             }
           </div>
