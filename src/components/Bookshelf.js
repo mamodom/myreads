@@ -9,12 +9,8 @@ const Bookshelf = ({ title, books = [] }) => (
       <ol className="books-grid">
         {
           books.map(book =>
-            <li key={book.title}>
-              <Book
-                backgroundImageUrl={book.backgroundImageUrl}
-                title={book.title}
-                author={book.author}
-              />
+            <li key={book.id}>
+              <Book {...book} />
             </li>)
         }
       </ol>
