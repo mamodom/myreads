@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Book = ({ authors = [], title, imageLinks }) => (
+const Book = ({ authors = [], title, imageLinks, }) => (
   <div className="book">
     <div className="book-top">
       <div className="book-cover" style={{
         width: 128,
         height: 193,
-        backgroundImage: `url("${imageLinks.thumbnail}")`
+        backgroundImage: `url("${imageLinks && imageLinks.thumbnail}")`,
       }}>
       </div>
       <div className="book-shelf-changer">
@@ -25,4 +25,3 @@ const Book = ({ authors = [], title, imageLinks }) => (
 );
 
 export default Book;
-
