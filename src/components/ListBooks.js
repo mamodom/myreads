@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component, } from 'react';
+import { Link, } from 'react-router-dom';
 
 import * as BooksAPI from '../BooksAPI';
 import Bookshelf from './Bookshelf';
-import { groupBy } from '../utlis';
+import { groupBy, } from '../utlis';
 
 export default class ListBooks extends Component {
   state = {
-    shelves: []
+    shelves: [],
   }
 
   componentDidMount() {
     BooksAPI.getAll()
       .then(books =>
         this.setState({
-          shelves: groupBy(books, 'shelf')
+          shelves: groupBy(books, 'shelf'),
         })
       );
   }
