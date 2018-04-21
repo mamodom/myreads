@@ -9,16 +9,16 @@ if (!token)
 
 const headers = {
   'Accept': 'application/json',
-  'Authorization': token
+  'Authorization': token,
 };
 
 export const get = (bookId) =>
-  fetch(`${api}/books/${bookId}`, { headers })
+  fetch(`${api}/books/${bookId}`, { headers, })
     .then(res => res.json())
     .then(data => data.book);
 
 export const getAll = () =>
-  fetch(`${api}/books`, { headers })
+  fetch(`${api}/books`, { headers, })
     .then(res => res.json())
     .then(data => data.books);
 
@@ -27,9 +27,9 @@ export const update = (book, shelf) =>
     method: 'PUT',
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ shelf })
+    body: JSON.stringify({ shelf, }),
   }).then(res => res.json());
 
 export const search = (query) =>
@@ -37,8 +37,8 @@ export const search = (query) =>
     method: 'POST',
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ query })
+    body: JSON.stringify({ query, }),
   }).then(res => res.json())
     .then(data => data.books);

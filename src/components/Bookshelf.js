@@ -2,7 +2,7 @@ import React from 'react';
 
 import Book from './Book';
 
-const Bookshelf = ({ title, books = [] }) => (
+const Bookshelf = ({ title, books = [], onShelfChanged, }) => (
   <div className="bookshelf">
     <h2 className="bookshelf-title">{title}</h2>
     <div className="bookshelf-books">
@@ -10,8 +10,9 @@ const Bookshelf = ({ title, books = [] }) => (
         {
           books.map(book =>
             <li key={book.id}>
-              <Book {...book} />
-            </li>)
+              <Book {...book} onShelfChanged={onShelfChanged} />
+            </li>
+          )
         }
       </ol>
     </div>

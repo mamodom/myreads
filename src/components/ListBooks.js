@@ -10,13 +10,22 @@ export default class ListBooks extends Component {
     shelves: [],
   }
 
-  componentDidMount() {
+  shelfChanged = ({ bookId, shelf, }) => {
+    BooksAPI.update({ id: bookId, }, shelf)
+      .then(response => this.fetchBooks());
+  }
+
+  fetchBooks = () => {
     BooksAPI.getAll()
       .then(books =>
         this.setState({
           shelves: groupBy(books, 'shelf'),
         })
       );
+  }
+
+  componentDidMount() {
+    this.fetchBooks();
   }
 
   render() {
@@ -29,20 +38,22 @@ export default class ListBooks extends Component {
           <div>
             {
               Object.keys(this.state.shelves)
-                .map(shlefKey =>
+                .map(shelfKey =>
                   <Bookshelf
-                    key={shlefKey}
-                    title={shlefKey
+                    key={shelfKey}
+                    title={shelfKey
                       .replace(/[A-Z]/g, str => ` ${str}`)
                       .replace(/^\w/, str => str.toUpperCase())
                     }
-                    books={this.state.shelves[shlefKey]} />
+                    books={this.state.shelves[shelfKey]}
+                    onShelfChanged={this.shelfChanged}
+                  />
                 )
             }
           </div>
         </div >
         <div className="open-search">
-          <Link to="/search" >Add a book </Link>
+          <Link to="/search">Add a book </Link>
         </div>
       </div>
     );

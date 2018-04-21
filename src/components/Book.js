@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Book = ({ authors = [], title, imageLinks, }) => (
+const Book = ({ authors = [], title, imageLinks, shelf, onShelfChanged, id, }) => (
   <div className="book">
     <div className="book-top">
       <div className="book-cover" style={{
@@ -10,8 +10,13 @@ const Book = ({ authors = [], title, imageLinks, }) => (
       }}>
       </div>
       <div className="book-shelf-changer">
-        <select>
-          <option value="none" disabled>Move to...</option>
+        <select value={shelf || 'none'} onChange={e => {
+          onShelfChanged({
+            shelf: e.target.value,
+            bookId: id,
+          });
+        }}>
+          <option value="move" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>

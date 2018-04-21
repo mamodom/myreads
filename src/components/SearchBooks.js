@@ -7,23 +7,37 @@ import Book from './Book';
 export default class SearchBooks extends Component {
   state = {
     searchResults: [],
+    searchTerm: '',
   }
 
-  searchTermChanged = e => {
-    const searchTerm = e.target.value;
-
-    if (!searchTerm) {
+  updateSearch = () => {
+    if (!this.state.searchTerm) {
       this.setState({ searchResults: [], });
       return;
     }
 
-    BooksAPI.search(searchTerm)
+    BooksAPI.search(this.state.searchTerm)
       .then(results => {
         if (!results.error)
           this.setState({
             searchResults: results || [],
           });
       });
+  }
+
+  searchTermChanged = e => {
+    const searchTerm = e.target.value;
+
+    this.setState({
+      searchTerm,
+    });
+
+    this.updateSearch();
+  }
+
+  shelfChanged = ({ bookId, shelf, }) => {
+    BooksAPI.update({ id: bookId, }, shelf)
+      .then(response => this.updateSearch());
   }
 
   render() {
@@ -39,7 +53,7 @@ export default class SearchBooks extends Component {
           <ol className="books-grid">
             {this.state.searchResults.map(book =>
               <li key={book.id}>
-                <Book {...book} />
+                <Book {...book} onShelfChanged={this.shelfChanged} />
               </li>
             )}
           </ol>
