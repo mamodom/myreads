@@ -10,23 +10,6 @@ export default class SearchBooks extends Component {
     searchTerm: '',
   }
 
-  updateSearch = () => {
-    if (!this.state.searchTerm) {
-      this.setState({ searchResults: [], });
-      return;
-    }
-
-    BooksAPI.search(this.state.searchTerm)
-      .then(results => {
-        if (!results.error)
-          this.setState({
-            searchResults: results || [],
-          });
-        else
-          this.setState({ searchResults: [], });
-      });
-  }
-
   searchTermChanged = e => {
     const searchTerm = e.target.value;
 
@@ -34,12 +17,30 @@ export default class SearchBooks extends Component {
       searchTerm,
     });
 
-    this.updateSearch();
+    if (!searchTerm) {
+      this.setState({ searchResults: [], });
+      return;
+    }
+
+    BooksAPI.search(searchTerm)
+      .then(results => {
+        if (!results.error)
+          this.setState({
+            searchResults: results || [],
+          });
+        else
+          this.setState({
+            searchResults: [],
+            error: results.error,
+          });
+      });
   }
 
   shelfChanged = ({ bookId, shelf, }) => {
     BooksAPI.update({ id: bookId, }, shelf)
-      .then(response => this.updateSearch());
+      .then(response => {
+        console.error('NotImplemented');
+      });
   }
 
   render() {
