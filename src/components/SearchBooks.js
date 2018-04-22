@@ -22,6 +22,8 @@ export default class SearchBooks extends Component {
           this.setState({
             searchResults: results || [],
           });
+        else
+          this.setState({ searchResults: [], });
       });
   }
 
