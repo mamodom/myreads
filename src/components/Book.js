@@ -10,12 +10,12 @@ const Book = ({ authors = [], title, imageLinks, shelf, onShelfChanged, id, }) =
       }}>
       </div>
       <div className="book-shelf-changer">
-        <select value={shelf || 'none'} onChange={e => {
+        <select value={shelf || 'none'} onChange={e =>
           onShelfChanged({
             shelf: e.target.value,
             bookId: id,
-          });
-        }}>
+          })
+        }>
           <option value="move" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
