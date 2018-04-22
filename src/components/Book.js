@@ -25,7 +25,13 @@ const Book = ({ authors = [], title, imageLinks, shelf, onShelfChanged, id, }) =
       </div>
     </div>
     <div className="book-title">{title}</div>
-    <div className="book-authors">{authors.join(', ')}</div>
+    <div className="book-authors">
+      {
+        authors.reduce((acc, value, i) =>
+          (acc.length && [...acc, <br key={i} />, value,]) || [value,], []
+        )
+      }
+    </div>
   </div>
 );
 
