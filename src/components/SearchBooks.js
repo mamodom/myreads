@@ -18,15 +18,21 @@ export default class SearchBooks extends Component {
     });
 
     if (!searchTerm) {
-      this.setState({ searchResults: [], });
+      this.setState({
+        searchResults: [],
+        error: null,
+      });
       return;
     }
 
     BooksAPI.search(searchTerm)
       .then(results => {
+        if (this.state.searchTerm !== searchTerm)
+          return;
         if (!results.error)
           this.setState({
             searchResults: results || [],
+            error: null,
           });
         else
           this.setState({
@@ -57,11 +63,14 @@ export default class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.searchResults.map(book =>
-              <li key={book.id}>
-                <Book {...book} onShelfChanged={this.shelfChanged} />
-              </li>
-            )}
+            {
+              (this.state.error && <span>Books not found.</span>) ||
+              this.state.searchResults.map(book =>
+                <li key={book.id}>
+                  <Book {...book} onShelfChanged={this.shelfChanged} />
+                </li>
+              )
+            }
           </ol>
         </div>
       </div>
