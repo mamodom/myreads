@@ -44,9 +44,16 @@ export default class SearchBooks extends Component {
 
   shelfChanged = ({ bookId, shelf, }) => {
     BooksAPI.update({ id: bookId, }, shelf)
-      .then(response => {
-        console.error('NotImplemented');
-      });
+      .then(response =>
+        this.setState((previous) => ({
+          searchResults: previous.searchResults
+            .map(book =>
+              (book.id === bookId)
+                ? { ...book, shelf, }
+                : book
+            ),
+        }))
+      );
   }
 
   render() {
