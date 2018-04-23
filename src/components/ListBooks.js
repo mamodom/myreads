@@ -7,25 +7,33 @@ import { groupBy, } from '../utlis';
 
 export default class ListBooks extends Component {
   state = {
-    shelves: [],
+    shelves: {},
   }
 
   shelfChanged = ({ bookId, shelf, }) => {
     BooksAPI.update({ id: bookId, }, shelf)
-      .then(response => this.fetchBooks());
+      .then(response => this.setState(previousState => ({
+        shelves: groupBy(
+          Object.keys(previousState.shelves)
+            .map(shelfKey => previousState.shelves[shelfKey])
+            .reduce((previous, current) => [...previous, ...current,], [])
+            .map(book => (book.id === bookId)
+              ? { ...book, shelf, }
+              : book
+            )
+            .filter(book => book.shelf != 'none'),
+          'shelf',
+        ),
+      })));
   }
 
-  fetchBooks = () => {
+  componentDidMount() {
     BooksAPI.getAll()
       .then(books =>
         this.setState({
           shelves: groupBy(books, 'shelf'),
         })
       );
-  }
-
-  componentDidMount() {
-    this.fetchBooks();
   }
 
   render() {
