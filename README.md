@@ -1,5 +1,10 @@
 # MyReads
 
+This is the [React Fundamentals](https://www.udacity.com/course/react-fundamentals--cx43) project of Udacity's React nano-degree.
+
+It consists of a book tracking app, where you can search for books and put them in shelves in order to track if you're currently reading them, you already read them or if you want to read them.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
