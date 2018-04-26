@@ -9,7 +9,7 @@ const Book = ({ book, onShelfChanged, }) => {
         <div className="book-cover" style={{
           width: 128,
           height: 193,
-          backgroundImage: `url("${imageLinks && imageLinks.thumbnail}")`,
+          backgroundImage: `url("${(imageLinks && imageLinks.thumbnail) || 'http://via.placeholder.com/128x193?text=No%20Cover'}")`,
         }}>
         </div>
         <div className="book-shelf-changer">
@@ -30,8 +30,9 @@ const Book = ({ book, onShelfChanged, }) => {
       <div className="book-title">{title}</div>
       <div className="book-authors">
         {
-          authors.reduce((acc, value, i) =>
-            (acc.length && [...acc, <br key={i} />, value,]) || [value,], []
+          authors.reduce((acc, value) =>
+            (acc.length && [...acc, <br key={`pre-${value}`} />, value,]) || [value,],
+            []
           )
         }
       </div>
