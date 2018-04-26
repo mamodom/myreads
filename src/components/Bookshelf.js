@@ -10,7 +10,7 @@ const Bookshelf = ({ title, books = [], onShelfChanged, }) => (
         {
           books.map(book =>
             <li key={book.id}>
-              <Book {...book} onShelfChanged={onShelfChanged} />
+              <Book book={book} onShelfChanged={onShelfChanged} />
             </li>
           )
         }

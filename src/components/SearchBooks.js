@@ -27,14 +27,20 @@ export default class SearchBooks extends Component {
     }
 
     BooksAPI.search(searchTerm)
-      .then(results => {
+      .then((results = []) => {
         if (this.state.searchTerm !== searchTerm)
           return;
-        if (!results.error)
+        if (!results.error) {
+          const shelvedResults = results.map(book => ({
+            ...book,
+            shelf: (this.props.books.find(b => b.id === book.id) || { shelf: 'none', }).shelf,
+          }));
+
           this.setState({
-            searchResults: results || [],
+            searchResults: shelvedResults,
             error: null,
           });
+        }
         else
           this.setState({
             searchResults: [],
@@ -43,18 +49,13 @@ export default class SearchBooks extends Component {
       });
   }
 
-  shelfChanged = ({ bookId, shelf, }) => {
-    BooksAPI.update({ id: bookId, }, shelf)
-      .then(response =>
-        this.setState((previous) => ({
-          searchResults: previous.searchResults
-            .map(book =>
-              (book.id === bookId)
-                ? { ...book, shelf, }
-                : book
-            ),
-        }))
-      );
+  shelfChanged = ({ book, shelf, }) => {
+    this.props.onShelfChanged({ book, shelf, });
+
+    this.setState(previous => ({
+      searchResults: previous.searchResults
+        .map(b => (b.id === book.id) ? { ...b, shelf, } : b),
+    }));
   }
 
   render() {
@@ -76,7 +77,7 @@ export default class SearchBooks extends Component {
               (this.state.error && <span>Books not found.</span>) ||
               this.state.searchResults.map(book =>
                 <li key={book.id}>
-                  <Book {...book} onShelfChanged={this.shelfChanged} />
+                  <Book book={book} onShelfChanged={this.shelfChanged} />
                 </li>
               )
             }
