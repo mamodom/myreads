@@ -21,7 +21,7 @@ export default class ListBooks extends Component {
               ? { ...book, shelf, }
               : book
             )
-            .filter(book => book.shelf != 'none'),
+            .filter(book => book.shelf !== 'none'),
           'shelf',
         ),
       })));
