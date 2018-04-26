@@ -9,6 +9,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Below you will find some information on how to perform common tasks.<br>
 
+## Installing dependencies
+```
+npm install
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
